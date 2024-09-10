@@ -1,0 +1,163 @@
+---
+title: "Long Manuscript Title"
+# comment out (or set to `false`) to not display title in header, and set to `true` to display the manuscript title in the header
+header-title: "Header Title"
+authors:
+  - name: "Author 1"
+    affiliations:
+      - ref: "affil-1"
+      - ref: "affil-2"
+    corresponding: true
+    equal-contributor: true
+    email: "a1-email"
+  - name: "Author 2"
+    affiliations:
+      - ref: "affil-1"
+      - ref: "affil-3"
+    equal-contributor: true
+affiliations:
+  - id: "affil-1"
+    address: "Affiliation 1"
+  - id: "affil-2"
+    address: "Affiliation 2"
+  - id: "affil-3"
+    address: "Affiliation 3"
+execute:
+  echo: false
+  warning: false
+  message: false
+  # path to your bib
+bibliography: refs.bib
+# Typst bib style (see here for all available styles https://typst.app/docs/reference/model/bibliography/#parameters-style)
+# Alternatively, you can provide the path to a csl file
+bibliographystyle: springer-vancouver
+# Alternatively, you can use Pandoc citeproc by uncommenting the below options (and commenting out `bibliographystyle`)
+# citeproc: true
+# csl: my-csl.csl
+# set bibliography title. Defaults to "References"
+bibliographytitle: "Bibliography"
+# set to `false` (or comment out) if you don't want to produce a word count for the abstract and main text
+word-count: true
+abstract: |
+  ## Background
+
+  Abstract Background
+
+  ## Methods
+
+  Abstract Methods
+
+  ## Results
+
+  Abstract Results
+
+  ## Conclusions
+
+  Abstract Conclusions
+toc: false
+format:
+  generic-manuscript-typst:
+    keep-typ: true
+---
+
+```{r libraries}
+# load r libraries and write code in R chunks
+# library(tidyverse)
+```
+
+# Background
+
+You can cite using `[@citation]` e.g., [@netwok2020].
+
+You can include raw typst as below
+
+````md
+#| echo: true
+#| include: false
+```{=typst}
+#set math.equation(numbering: "1")
+#let boldred(x) = text(fill: rgb("#8B0000"), $bold(#x)$)
+
+$
+rho mat(
+  beta_(H H), beta_(H M), beta_(H L) ;
+  beta_(M H), beta_(H M), beta_(M L) ;
+  beta_(L H), beta_(H M), beta_(L L) ;
+)
+$
+```
+````
+
+```{=typst}
+#set math.equation(numbering: "1")
+#let boldred(x) = text(fill: rgb("#8B0000"), $bold(#x)$)
+
+$
+rho mat(
+  beta_(H H), beta_(H M), beta_(H L) ;
+  beta_(M H), beta_(H M), beta_(M L) ;
+  beta_(L H), beta_(H M), beta_(L L) ;
+)
+$
+```
+
+You can insert images and cross-reference them using Markdown syntax `![An image of an elephant](elephant.png){#fig-elephant}`.
+
+> **Note:** you need to use `-` to separate words in the figure tables. Trying to use `_` will result in an error as Quarto will search your bib file for a reference.
+
+![An image of an elephant](./elephant.png){#fig-elephant}
+
+And this is a reference to the @fig-elephant using `@fig-elephant`.
+
+You can insert page breaks using Quarto shortcode syntax `{{< shortcode >}}`, where `shortcode` is `pagebreak`
+
+{{< pagebreak >}}
+
+## Lorem
+
+{{< lipsum 2 >}}
+
+{{< pagebreak >}}
+
+# Acknowledgements
+
+## Author Contributions
+
+*Conceptualization:*
+
+*Data curation:*
+
+*Formal analysis:*
+
+*Funding acquisition:*
+
+*Investigation:*
+
+*Methodology:*
+
+*Project administration:*
+
+*Software:*
+
+*Supervision:*
+
+*Validation:*
+
+*Visualization:*
+
+*Writing - original draft:*
+
+*Writing - review and editing:*
+
+## Conflicts of Interest and Financial Disclosures
+
+## Data Access, Responsibility, and Analysis
+
+## Data Availability
+
+## Collaborators
+
+{{< pagebreak >}}
+
+::: {#refs}
+:::
