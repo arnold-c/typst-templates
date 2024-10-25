@@ -47,11 +47,22 @@
   // Word count
   word-count: false,
 
+  // Line numbers
+  line-numbers: false,
+
   // Paper's content
   body
 ) = {
   // Set document properties
   set bibliography(title: bib-title)
+
+  // Line numbers have not yet been implemented in a release version, but are coming soon
+  // https://github.com/typst/typst/issues/352
+  // https://github.com/typst/typst/pull/4516
+  //if line-numbers {
+  //  set par.line(numbering: "1")
+  //  show figure: set par.line(numbering: none)
+  //}
 
   set document(title: title, author: authors.keys())
   set page(numbering: "1", number-align: center)
@@ -177,14 +188,16 @@
     pagebreak()
 
     block([
-      #heading([Abstract])
-      #if word-count {
+        #if word-count {
         import "@preview/wordometer:0.1.2": word-count, word-count-of, total-words
-        text([Word count: #word-count-of(exclude: (heading))[#abstract].words])
+        text(weight: "bold", [Word count: ])
+        text([#word-count-of(exclude: (heading))[#abstract].words])
       }
+      #heading([Abstract])
       #abstract
 
       #if keywords.len() > 0 {
+        linebreak()
         text(weight: "bold", [Key words: ])
         text([#keywords.join([; ]).])
       }
@@ -206,7 +219,8 @@
 
   if word-count {
       import "@preview/wordometer:0.1.2": word-count, word-count-of, total-words
-      text([Word count: #word-count-of(exclude: (heading, table, figure.caption))[#body].words])
+      text(weight: "bold", [Word count: ])
+      text([#word-count-of(exclude: (heading, table, figure.caption))[#body].words])
   }
 
   body

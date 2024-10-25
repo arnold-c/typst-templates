@@ -220,11 +220,22 @@
   // Word count
   word-count: false,
 
+  // Line numbers
+  line-numbers: false,
+
   // Paper's content
   body
 ) = {
   // Set document properties
   set bibliography(title: bib-title)
+
+  // Line numbers have not yet been implemented in a release version, but are coming soon
+  // https://github.com/typst/typst/issues/352
+  // https://github.com/typst/typst/pull/4516
+  //if line-numbers {
+  //  set par.line(numbering: "1")
+  //  show figure: set par.line(numbering: none)
+  //}
 
   set document(title: title, author: authors.keys())
   set page(numbering: "1", number-align: center)
@@ -350,14 +361,16 @@
     pagebreak()
 
     block([
-      #heading([Abstract])
-      #if word-count {
+        #if word-count {
         import "@preview/wordometer:0.1.2": word-count, word-count-of, total-words
-        text([Word count: #word-count-of(exclude: (heading))[#abstract].words])
+        text(weight: "bold", [Word count: ])
+        text([#word-count-of(exclude: (heading))[#abstract].words])
       }
+      #heading([Abstract])
       #abstract
 
       #if keywords.len() > 0 {
+        linebreak()
         text(weight: "bold", [Key words: ])
         text([#keywords.join([; ]).])
       }
@@ -379,7 +392,8 @@
 
   if word-count {
       import "@preview/wordometer:0.1.2": word-count, word-count-of, total-words
-      text([Word count: #word-count-of(exclude: (heading, table, figure.caption))[#body].words])
+      text(weight: "bold", [Word count: ])
+      text([#word-count-of(exclude: (heading, table, figure.caption))[#body].words])
   }
 
   body
@@ -387,62 +401,63 @@
 }
 
  // title: "Title",
- //  header-title: "Header Title",
- //  authors: (
- //    "Author 1": (
- //      "affiliation": ("affil-1", "affil-2"),
- //      "email": "a1-email",
- //    ),
- //    "Author 2": (
- //      "affiliation": ("affil-1", "affil-3"),
- //      "email": "a2-email",
- //    ),
- //  ),
- //  affiliations: (
- //    "affil-1": "Affiliation 1",
- //    "affil-2": "Affiliation 2",
- //    "affil-3": "Affiliation 3",
- //  ),
- //  abstract: [
- //    == Background
- //    Abstract Background
+ // header-title: "Header Title",
+ // authors: (
+ //   "Author 1": (
+ //     "affiliation": ("affil-1", "affil-2"),
+ //     "email": "a1-email",
+ //   ),
+ //   "Author 2": (
+ //     "affiliation": ("affil-1", "affil-3"),
+ //     "email": "a2-email",
+ //   ),
+ // ),
+ // affiliations: (
+ //   "affil-1": "Affiliation 1",
+ //   "affil-2": "Affiliation 2",
+ //   "affil-3": "Affiliation 3",
+ // ),
+ // abstract: [
+ //   == Background
+ //   Abstract Background
  //
- //    == Methods
- //    Abstract Methods
+ //   == Methods
+ //   Abstract Methods
  //
- //    == Result
- //    Abstract Results
+ //   == Result
+ //   Abstract Results
  //
- //    == Conclusions
- //    Abstract Conclusions
- //  ],
- //  keywords: (),
- //  bib: "refs.bib",
- //  bib-title: "Refs",
- //  word-count: false,
+ //   == Conclusions
+ //   Abstract Conclusions
+ // ],
+ // keywords: (),
+ // bib: "refs.bib",
+ // bib-title: "Refs",
+ // word-count: false,
+ // line-numbers: false,
 
 #show: body => article(
-  title: "Long Manuscript Title",
-  header-title: "Header Title",
-  authors: (
-              "Author 1": (
-          affiliation: ("affil-1", "affil-2"),
-          corresponding: "true",
-          equal-contributor: "true",
-          email: "a1-email",
-    ),              "Author 2": (
-          affiliation: ("affil-1", "affil-3"),
-          
-          equal-contributor: "true",
-          
-    ),    ),
-  affiliations: (
-      "affil-1": "Affiliation 1",
-      "affil-2": "Affiliation 2",
-      "affil-3": "Affiliation 3"  ),
-  bib: "refs.bib",
-      bib-title: "Bibliography",
-    abstract: [== Background
+      title: "Long Manuscript Title",
+        header-title: "Header Title",
+        authors: (
+                    "Author 1": (
+            affiliation: ("affil-1", "affil-2"),
+            corresponding: "true",
+            equal-contributor: "true",
+            email: "a1-email",
+      ),                    "Author 2": (
+            affiliation: ("affil-1", "affil-3"),
+            
+            equal-contributor: "true",
+            
+      ),        ),
+        affiliations: (
+          "affil-1": "Affiliation 1",
+          "affil-2": "Affiliation 2",
+          "affil-3": "Affiliation 3"    ),
+          bib: "refs.bib",
+          bib-title: "Bibliography",
+              abstract: [== Background
 <background>
 Abstract Background
 
@@ -459,8 +474,8 @@ Abstract Results
 Abstract Conclusions
 
 ],
-  word-count: true,
-  body,
+        word-count: true,
+      body,
 )
 
 
@@ -523,9 +538,9 @@ You can insert page breaks using Quarto shortcode syntax `{{< shortcode  >}}`, w
 #pagebreak()
 == Lorem
 <lorem>
-Duis urna urna, pellentesque eu urna ut, malesuada bibendum dolor. Suspendisse potenti. Vivamus ornare, arcu quis molestie ultrices, magna est accumsan augue, auctor vulputate erat quam quis neque. Nullam scelerisque odio vel ultricies facilisis. Ut porta arcu non magna sagittis lacinia. Cras ornare vulputate lectus a tristique. Pellentesque ac arcu congue, rhoncus mi id, dignissim ligula.
+Nulla eget cursus ipsum. Vivamus porttitor leo diam, sed volutpat lectus facilisis sit amet. Maecenas et pulvinar metus. Ut at dignissim tellus. In in tincidunt elit. Etiam vulputate lobortis arcu, vel faucibus leo lobortis ac. Aliquam erat volutpat. In interdum orci ac est euismod euismod. Nunc eleifend tristique risus, at lacinia odio commodo in. Sed aliquet ligula odio, sed tempor neque ultricies sit amet.
 
-Praesent ornare dolor turpis, sed tincidunt nisl pretium eget. Curabitur sed iaculis ex, vitae tristique sapien. Quisque nec ex dolor. Quisque ut nisl a libero egestas molestie. Nulla vel porta nulla. Phasellus id pretium arcu. Etiam sed mi pellentesque nibh scelerisque elementum sed at urna. Ut congue molestie nibh, sit amet pretium ligula consectetur eu. Integer consectetur augue justo, at placerat erat posuere at. Ut elementum urna lectus, vitae bibendum neque pulvinar quis. Suspendisse vulputate cursus eros id maximus. Duis pulvinar facilisis massa, et condimentum est viverra congue. Curabitur ornare convallis nisl. Morbi dictum scelerisque turpis quis pellentesque. Etiam lectus risus, luctus lobortis risus ut, rutrum vulputate justo. Nulla facilisi.
+Etiam quis tortor luctus, pellentesque ante a, finibus dolor. Phasellus in nibh et magna pulvinar malesuada. Ut nisl ex, sagittis at sollicitudin et, sollicitudin id nunc. In id porta urna. Proin porta dolor dolor, vel dapibus nisi lacinia in. Pellentesque ante mauris, ornare non euismod a, fermentum ut sapien. Proin sed vehicula enim. Aliquam tortor odio, vestibulum vitae odio in, tempor molestie justo. Praesent maximus lacus nec leo maximus blandit.
 
 #pagebreak()
 = Acknowledgements
